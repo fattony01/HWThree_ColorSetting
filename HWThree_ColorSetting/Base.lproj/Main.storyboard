@@ -98,6 +98,31 @@
                                     <action selector="slidersAction:" destination="BYZ-38-t0r" eventType="valueChanged" id="eh7-Dc-nS7"/>
                                 </connections>
                             </slider>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HUn-8r-52o">
+                                <rect key="frame" x="122" y="498" width="170" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="170" id="Dp8-jf-ocP"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="get color code">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <buttonConfiguration key="configuration" style="gray">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Get color code">
+                                            <attributes>
+                                                <font key="NSFont" size="18" name="Monaco"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <color key="baseForegroundColor" systemColor="systemGray6Color"/>
+                                    <color key="baseBackgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="getCodeButtonTapped" destination="BYZ-38-t0r" eventType="touchUpInside" id="wgI-sy-zRZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -114,6 +139,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wFv-m0-2Zo" secondAttribute="trailing" constant="20" id="XbY-rA-hZZ"/>
                             <constraint firstItem="wFv-m0-2Zo" firstAttribute="leading" secondItem="YGW-ke-qcJ" secondAttribute="trailing" constant="10" id="bsk-EB-GLk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Qha-Ax-Lj9" secondAttribute="trailing" constant="20" id="chj-JV-UMJ"/>
+                            <constraint firstItem="HUn-8r-52o" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fAg-mC-b21"/>
                             <constraint firstItem="WqW-M0-Lt9" firstAttribute="leading" secondItem="SPT-La-v01" secondAttribute="trailing" constant="10" id="fzz-2f-G9B"/>
                             <constraint firstItem="H4j-MA-xcK" firstAttribute="top" secondItem="Qha-Ax-Lj9" secondAttribute="bottom" constant="55" id="hRI-de-8ca"/>
                             <constraint firstItem="I7H-YP-BEa" firstAttribute="top" secondItem="H4j-MA-xcK" secondAttribute="bottom" constant="30" id="iyk-Rz-dsq"/>
@@ -121,6 +147,7 @@
                             <constraint firstAttribute="trailing" secondItem="WqW-M0-Lt9" secondAttribute="trailing" constant="20" id="kW6-GC-7nK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="SQW-61-XbN" secondAttribute="trailing" constant="20" id="lEC-VH-NEf"/>
                             <constraint firstItem="SPT-La-v01" firstAttribute="leading" secondItem="H4j-MA-xcK" secondAttribute="trailing" constant="10" id="p6M-VQ-HZI"/>
+                            <constraint firstItem="HUn-8r-52o" firstAttribute="top" secondItem="SQW-61-XbN" secondAttribute="bottom" constant="50" id="peW-Ay-s7N"/>
                             <constraint firstItem="YGW-ke-qcJ" firstAttribute="top" secondItem="SPT-La-v01" secondAttribute="bottom" constant="30" id="qlN-3c-ii6"/>
                             <constraint firstItem="I7H-YP-BEa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="rXN-ji-MWH"/>
                             <constraint firstItem="H4j-MA-xcK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="rrw-wA-QqF"/>
@@ -149,6 +176,9 @@
         </systemColor>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
