@@ -34,24 +34,45 @@ class ColorViewController: UIViewController {
 //MARK: - Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
-        redCounter.text = redSlider.value.formatted()
-        greenCounter.text = greenSlider.value.formatted()
-        blueCounter.text = blueSlider.value.formatted()
+        let colors = CIColor(color: viewColor)
+        redSlider.value = Float(colors.red)
+        greenSlider.value = Float(colors.green)
+        blueSlider.value = Float(colors.blue)
+        
+        redCounter.text = String(format: "%.2f", redSlider.value)
+        greenCounter.text = String(format: "%.2f", greenSlider.value)
+        blueCounter.text = String(format: "%.2f", blueSlider.value)
+        
+        redTextField.text = String(format: "%.2f", redSlider.value)
+        greenTextField.text = String(format: "%.2f", greenSlider.value)
+        blueTextField.text = String(format: "%.2f", blueSlider.value)
         
         redTextField.delegate = self
-        redTextField.text = redSlider.value.formatted()
         greenTextField.delegate = self
-        greenTextField.text = greenSlider.value.formatted()
         blueTextField.delegate = self
-        blueTextField.text = blueSlider.value.formatted()
         
         colorView.layer.cornerRadius = 10
         colorView.backgroundColor = viewColor
+        
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneToolBarButtonTapped))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        toolbar.setItems([flexSpace, doneButton], animated: false)
+        redTextField.inputAccessoryView = toolbar
+        greenTextField.inputAccessoryView = toolbar
+        blueTextField.inputAccessoryView = toolbar
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         view.endEditing(true)
+    }
+    
+    @objc func doneToolBarButtonTapped() {
+        redTextField.resignFirstResponder()
+        greenTextField.resignFirstResponder()
+        blueTextField.resignFirstResponder()
     }
     
     //MARK: - IBActions
@@ -114,6 +135,14 @@ extension ColorViewController {
         
         present(alert, animated: true)
     }
+    
+    private func textFieldAlert () {
+        let alert = UIAlertController(title: "Oops", message: "Value must be between 0 and 1", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        
+        present(alert, animated: true)
+    }
 }
 
 //MARK: - UITextFieldDelegate
@@ -134,14 +163,10 @@ extension ColorViewController: UITextFieldDelegate{
         viewColorChanged()
         }
     
-    private func textFieldAlert () {
-        let alert = UIAlertController(title: "Oops", message: "Value must be between 0 and 1", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
-        alert.addAction(okAction)
-        
-        present(alert, animated: true)
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
     }
-}
 
+}
 
 
