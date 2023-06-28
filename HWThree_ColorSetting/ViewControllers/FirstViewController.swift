@@ -9,11 +9,7 @@ import UIKit
 
 class FirstViewController: UIViewController {
     
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
+//MARK: - Overrides    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let colorVC = segue.destination as? ColorViewController else { return }
         colorVC.delegate = self
@@ -21,6 +17,7 @@ class FirstViewController: UIViewController {
     }
 }
 
+//MARK: - Extension
 extension FirstViewController: ColorViewControllerDelegate {
     func changeColor(_ color: UIColor) {
         view.backgroundColor = color
