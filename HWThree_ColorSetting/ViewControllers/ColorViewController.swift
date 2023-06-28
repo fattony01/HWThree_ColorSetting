@@ -7,7 +7,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+protocol ColorViewControllerDelegate{
+    func changeColor(_ color: UIColor)
+}
+
+class ColorViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet var colorView: UIView!
@@ -19,13 +23,16 @@ class ViewController: UIViewController {
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
     
-    
-    
+    var delegate: ColorViewControllerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         colorView.layer.cornerRadius = 10
-        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
     
     //MARK: - IBActions
@@ -40,11 +47,15 @@ class ViewController: UIViewController {
         }
     }
     
-    
     @IBAction func getCodeButtonTapped() {
         showAlert()
     }
     
+    
+    @IBAction func doneButtonTapped() {
+        delegate.changeColor(colorView?.backgroundColor ?? .red)
+        dismiss(animated: true)
+    }
     
     //MARK: - Private Methods
     
@@ -66,9 +77,8 @@ class ViewController: UIViewController {
     
 }
 
-
 //MARK: - UIAlertController
-extension ViewController {
+extension ColorViewController {
     private func showAlert() {
         let colorCode = colorToHex()
         let alert = UIAlertController(title: "Color code", message: colorCode, preferredStyle: .alert)
