@@ -23,11 +23,30 @@ class ColorViewController: UIViewController {
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
     
-    var delegate: ColorViewControllerDelegate!
+    @IBOutlet var redTextField: UITextField!
+    @IBOutlet var greenTextField: UITextField!
+    @IBOutlet var blueTextField: UITextField!
     
+    
+    var delegate: ColorViewControllerDelegate!
+    var viewColor: UIColor!
+    
+//MARK: - Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
+        redCounter.text = redSlider.value.formatted()
+        greenCounter.text = greenSlider.value.formatted()
+        blueCounter.text = blueSlider.value.formatted()
+        
+        redTextField.delegate = self
+        redTextField.text = redSlider.value.formatted()
+        greenTextField.delegate = self
+        greenTextField.text = greenSlider.value.formatted()
+        blueTextField.delegate = self
+        blueTextField.text = blueSlider.value.formatted()
+        
         colorView.layer.cornerRadius = 10
+        colorView.backgroundColor = viewColor
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -40,10 +59,13 @@ class ColorViewController: UIViewController {
         viewColorChanged()
         if sender == redSlider {
             redCounter.text = String(format: "%.2f", redSlider.value)
+            redTextField.text = String(format: "%.2f", redSlider.value)
         } else if sender == greenSlider {
             greenCounter.text = String(format: "%.2f", greenSlider.value)
+            greenTextField.text = String(format: "%.2f", greenSlider.value)
         } else if sender == blueSlider {
             blueCounter.text = String(format: "%.2f", blueSlider.value)
+            blueTextField.text = String(format: "%.2f", blueSlider.value)
         }
     }
     
@@ -93,5 +115,33 @@ extension ColorViewController {
         present(alert, animated: true)
     }
 }
+
+//MARK: - UITextFieldDelegate
+extension ColorViewController: UITextFieldDelegate{
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let number = Float(redTextField.text ?? ""), number <= 1.0 {
+            redSlider.value = number
+            redCounter.text = number.formatted()
+        } else { textFieldAlert() }
+        if let number = Float(greenTextField.text ?? ""), number <= 1 {
+            greenSlider.value = number
+            greenCounter.text = number.formatted()
+        } else { textFieldAlert() }
+        if let number = Float(blueTextField.text ?? ""), number <= 1 {
+            blueSlider.value = number
+            blueCounter.text = number.formatted()
+        } else { textFieldAlert() }
+        viewColorChanged()
+        }
+    
+    private func textFieldAlert () {
+        let alert = UIAlertController(title: "Oops", message: "Value must be between 0 and 1", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        
+        present(alert, animated: true)
+    }
+}
+
 
 

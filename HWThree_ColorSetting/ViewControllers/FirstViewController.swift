@@ -13,7 +13,7 @@ class FirstViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let colorVC = segue.destination as? ColorViewController else { return }
         colorVC.delegate = self
-        colorVC.colorView?.backgroundColor = view.backgroundColor ?? .red
+        colorVC.viewColor = view.backgroundColor
     }
 }
 
