@@ -34,18 +34,10 @@ class ColorViewController: UIViewController {
 //MARK: - Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
-        let colors = CIColor(color: viewColor)
-        redSlider.value = Float(colors.red)
-        greenSlider.value = Float(colors.green)
-        blueSlider.value = Float(colors.blue)
-        
-        redCounter.text = String(format: "%.2f", redSlider.value)
-        greenCounter.text = String(format: "%.2f", greenSlider.value)
-        blueCounter.text = String(format: "%.2f", blueSlider.value)
-        
-        redTextField.text = String(format: "%.2f", redSlider.value)
-        greenTextField.text = String(format: "%.2f", greenSlider.value)
-        blueTextField.text = String(format: "%.2f", blueSlider.value)
+        setStartSlidersPosition()
+        setStartCounterValue()
+        setStartTextFieldValue()
+        setToolBarWithButton()
         
         redTextField.delegate = self
         greenTextField.delegate = self
@@ -53,15 +45,6 @@ class ColorViewController: UIViewController {
         
         colorView.layer.cornerRadius = 10
         colorView.backgroundColor = viewColor
-        
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneToolBarButtonTapped))
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbar.setItems([flexSpace, doneButton], animated: false)
-        redTextField.inputAccessoryView = toolbar
-        greenTextField.inputAccessoryView = toolbar
-        blueTextField.inputAccessoryView = toolbar
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -70,9 +53,7 @@ class ColorViewController: UIViewController {
     }
     
     @objc func doneToolBarButtonTapped() {
-        redTextField.resignFirstResponder()
-        greenTextField.resignFirstResponder()
-        blueTextField.resignFirstResponder()
+        view.endEditing(true)
     }
     
     //MARK: - IBActions
@@ -99,17 +80,18 @@ class ColorViewController: UIViewController {
         delegate.changeColor(colorView?.backgroundColor ?? .red)
         dismiss(animated: true)
     }
-    
-    //MARK: - Private Methods
-    
-    private func viewColorChanged() {
+}
+
+//MARK: - Private methods
+private extension ColorViewController {
+   func viewColorChanged() {
         let red = CGFloat(redSlider.value)
         let green = CGFloat(greenSlider.value)
         let blue = CGFloat(blueSlider.value)
         colorView.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
     }
     
-    private func colorToHex() -> String {
+    func colorToHex() -> String {
         let red = Int(redSlider.value * 255)
         let green = Int(greenSlider.value * 255)
         let blue = Int(blueSlider.value * 255)
@@ -118,6 +100,39 @@ class ColorViewController: UIViewController {
         return colorCode
     }
     
+    func setStartSlidersPosition() {
+        let colors = CIColor(color: viewColor)
+        redSlider.value = Float(colors.red)
+        greenSlider.value = Float(colors.green)
+        blueSlider.value = Float(colors.blue)
+    }
+    
+    func setStartCounterValue() {
+        redCounter.text = String(format: "%.2f", redSlider.value)
+        greenCounter.text = String(format: "%.2f", greenSlider.value)
+        blueCounter.text = String(format: "%.2f", blueSlider.value)
+    }
+    
+    func setStartTextFieldValue() {
+        redTextField.text = String(format: "%.2f", redSlider.value)
+        greenTextField.text = String(format: "%.2f", greenSlider.value)
+        blueTextField.text = String(format: "%.2f", blueSlider.value)
+    }
+    
+    func setToolBarWithButton() {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done,
+                                         target: self,
+                                         action: #selector(doneToolBarButtonTapped))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                        target: nil,
+                                        action: nil)
+        toolbar.setItems([flexSpace, doneButton], animated: false)
+        redTextField.inputAccessoryView = toolbar
+        greenTextField.inputAccessoryView = toolbar
+        blueTextField.inputAccessoryView = toolbar
+    }
 }
 
 //MARK: - UIAlertController
@@ -148,18 +163,16 @@ extension ColorViewController {
 //MARK: - UITextFieldDelegate
 extension ColorViewController: UITextFieldDelegate{
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if let number = Float(redTextField.text ?? ""), number <= 1.0 {
-            redSlider.value = number
-            redCounter.text = number.formatted()
-        } else { textFieldAlert() }
-        if let number = Float(greenTextField.text ?? ""), number <= 1 {
-            greenSlider.value = number
-            greenCounter.text = number.formatted()
-        } else { textFieldAlert() }
-        if let number = Float(blueTextField.text ?? ""), number <= 1 {
-            blueSlider.value = number
-            blueCounter.text = number.formatted()
-        } else { textFieldAlert() }
+        guard let number = Float(textField.text ?? ""), number <= 1.0 else { return textFieldAlert() }
+        if textField == redTextField {
+            redSlider.setValue(number, animated: true)
+            redCounter.text = String(format: "%.2f", number)
+        } else if textField == greenTextField {
+            greenSlider.setValue(number, animated: true)
+            greenCounter.text = String(format: "%.2f", number)
+        } else if textField == blueTextField {
+            blueSlider.setValue(number, animated: true)
+            blueCounter.text = String(format: "%.2f", number) }
         viewColorChanged()
         }
     
